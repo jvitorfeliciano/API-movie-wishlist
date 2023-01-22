@@ -14,3 +14,15 @@ export async function addNewGenre(req: Request, res: Response): Promise<void> {
         res.status(status).send({ message });
     }
 }
+
+export async function deleteGenreById(req: Request, res: Response): Promise<void> {
+    const id = Number(req.params.id);
+
+    try {
+        await genresServices.deleteGenreById(id);
+        res.sendStatus(204);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}

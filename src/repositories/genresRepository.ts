@@ -9,9 +9,20 @@ async function insertGenre(name: string): Promise<QueryResult<GenresEntity>> {
 async function findGenreByName(name: string): Promise<QueryResult<GenresEntity>> {
     return connectionDB.query(`SELECT * FROM genres WHERE name = $1`, [name]);
 }
+
+async function deleteById(id: number): Promise<QueryResult<GenresEntity>> {
+    return connectionDB.query(`DELETE FROM genres WHERE id = $1`, [id]);
+}
+
+async function findById(id: number): Promise<QueryResult<GenresEntity>> {
+    return connectionDB.query(`SELECT * FROM genres WHERE id = $1`, [id]);
+}
+
 const genresRepository = {
     insertGenre,
     findGenreByName,
+    deleteById,
+    findById,
 };
 
 export default genresRepository;

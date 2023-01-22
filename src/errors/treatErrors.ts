@@ -8,6 +8,11 @@ export default function treatError(obj: ErrorInfos): ErrorStatus {
             status: 409,
             message,
         };
+    } else if (name === "NotFoundError") {
+        return {
+            status: 404,
+            message,
+        };
     } else {
         return {
             status: 500,

@@ -7,7 +7,7 @@ const server = express();
 
 server.use(json());
 
-const port = process.env.SERVER_PORT;
+const port = process.env.SERVER_PORT as string;
 
 server.listen(port, () => {
     console.log(`Server running in port ${port}`);

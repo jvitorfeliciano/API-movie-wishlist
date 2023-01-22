@@ -17,5 +17,9 @@ interface Movie {
 interface MovieInformations extends MoviesEntity {
     genres: GenresEntity[];
 }
+interface MovieAndGenreIds {
+    genre_id: number;
+    movie_id: number;
+}
 
-export { MoviesEntity, Movie, MovieInformations };
+export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds };

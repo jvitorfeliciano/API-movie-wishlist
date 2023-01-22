@@ -1,6 +1,6 @@
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { Movie } from "../protocols/movies.js";
+import { Movie, MovieInformations } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
 
@@ -30,8 +30,15 @@ async function validateMovieExistenceByName(object: Movie): Promise<void> {
     }
 }
 
+async function getMovieById(movieId: number): Promise<MovieInformations[]> {
+    const movie = await moviesRepository.findOneById(movieId);
+
+    return movie.rows;
+}
+
 const moviesService = {
     addNewMovie,
+    getMovieById,
 };
 
 export default moviesService;

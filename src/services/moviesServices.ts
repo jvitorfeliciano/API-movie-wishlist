@@ -45,10 +45,23 @@ async function getAllMovies(): Promise<MovieInformations[]> {
     return movies.rows;
 }
 
+async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
+    const genre = await genresRepository.findById(genreId);
+
+    if (genre.rowCount === 0) {
+        throw notFoundError();
+    }
+
+    const movies = await moviesRepository.findMoviesByGenre(genreId);
+
+    return movies.rows;
+}
+
 const moviesServices = {
     addNewMovie,
     getMovieById,
     getAllMovies,
+    getMoviesByGenre,
 };
 
 export default moviesServices;

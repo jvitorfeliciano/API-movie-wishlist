@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import treatError from "../errors/treatErrors.js";
+import { Genre } from "../protocols/genres.js";
 import { Movie } from "../protocols/movies.js";
 import moviesServices from "../services/moviesServices.js";
 
@@ -31,6 +32,18 @@ export async function getMovieById(req: Request, res: Response): Promise<void> {
 export async function getAllMovies(req: Request, res: Response): Promise<void> {
     try {
         const movies = await moviesServices.getAllMovies();
+        res.send(movies);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}
+
+export async function getMoviesByGenre(req: Request, res: Response): Promise<void> {
+    const genrerId = Number(req.params.id);
+
+    try {
+        const movies = await moviesServices.getMoviesByGenre(genrerId);
         res.send(movies);
     } catch (err) {
         const { status, message } = treatError(err);

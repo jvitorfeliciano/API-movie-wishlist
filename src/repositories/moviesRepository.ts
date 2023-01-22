@@ -10,8 +10,13 @@ async function insertMovie(object: Movie): Promise<QueryResult<MoviesEntity>> {
     ]);
 }
 
+async function findByName(object: Movie): Promise<QueryResult<MoviesEntity>> {
+    return await connectionDB.query(`SELECT * FROM movies WHERE title = $1`, [object.title]);
+}
+
 const moviesRepository = {
     insertMovie,
+    findByName,
 };
 
 export default moviesRepository;

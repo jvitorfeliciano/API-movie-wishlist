@@ -18,11 +18,16 @@ async function findById(id: number): Promise<QueryResult<GenresEntity>> {
     return connectionDB.query(`SELECT * FROM genres WHERE id = $1`, [id]);
 }
 
+async function findAll(): Promise<QueryResult<GenresEntity>> {
+    return connectionDB.query(`SELECT * FROM genres`);
+}
+
 const genresRepository = {
     insertGenre,
     findGenreByName,
     deleteById,
     findById,
+    findAll,
 };
 
 export default genresRepository;

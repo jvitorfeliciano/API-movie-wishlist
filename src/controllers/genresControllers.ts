@@ -26,3 +26,13 @@ export async function deleteGenreById(req: Request, res: Response): Promise<void
         res.status(status).send({ message });
     }
 }
+
+export async function getAllGenres(req: Request, res: Response): Promise<void> {
+    try {
+        const genres = await genresServices.getAllGenres();
+        res.send(genres);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}

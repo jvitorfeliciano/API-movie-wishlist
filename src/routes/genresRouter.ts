@@ -7,4 +7,5 @@ const genreRouter = Router();
 genreRouter.post("/genres", validateSchema, addNewGenre);
 genreRouter.delete("/genres/:id", deleteGenreById);
 genreRouter.get("/genres", getAllGenres);
+
 export default genreRouter;

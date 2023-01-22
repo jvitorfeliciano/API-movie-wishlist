@@ -4,5 +4,6 @@ interface GenresEntity {
 }
 
 type Genre = Omit<GenresEntity, "id">;
+type Genre_Ids = number[];
 
-export { GenresEntity, Genre };
+export { GenresEntity, Genre, Genre_Ids };

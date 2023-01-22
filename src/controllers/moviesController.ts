@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import treatError from "../errors/treatErrors.js";
 import { Genre } from "../protocols/genres.js";
-import { Movie } from "../protocols/movies.js";
+import { Movie, MovieUpdate } from "../protocols/movies.js";
 import moviesServices from "../services/moviesServices.js";
 
 export async function addNewMovie(req: Request, res: Response): Promise<void> {
@@ -45,6 +45,20 @@ export async function getMoviesByGenre(req: Request, res: Response): Promise<voi
     try {
         const movies = await moviesServices.getMoviesByGenre(genrerId);
         res.send(movies);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}
+
+export async function updateMovieDescription(req: Request, res: Response): Promise<void> {
+    const movieId = Number(req.params.id);
+    const movieDescription = req.body as MovieUpdate;
+
+    try {
+        await moviesServices.updateMovieDescription(movieDescription, movieId);
+
+        res.sendStatus(204);
     } catch (err) {
         const { status, message } = treatError(err);
         res.status(status).send({ message });

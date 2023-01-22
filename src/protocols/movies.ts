@@ -14,6 +14,8 @@ interface Movie {
     genre_ids: number[];
 }
 
+type MovieUpdate = Pick<Movie, "description">;
+
 interface MovieInformations extends MoviesEntity {
     genres: GenresEntity[] | null;
 }
@@ -22,4 +24,4 @@ interface MovieAndGenreIds {
     movie_id: number;
 }
 
-export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds };
+export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds, MovieUpdate };

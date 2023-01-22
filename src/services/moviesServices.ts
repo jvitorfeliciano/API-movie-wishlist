@@ -1,6 +1,6 @@
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { Movie, MovieInformations } from "../protocols/movies.js";
+import { Movie, MovieInformations, MovieUpdate } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
 
@@ -57,11 +57,22 @@ async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
     return movies.rows;
 }
 
+async function updateMovieDescription(object: MovieUpdate, movieId: number): Promise<void> {
+    const movie = await moviesRepository.findOneById(movieId);
+
+    if (movie.rowCount === 0) {
+        throw notFoundError();
+    }
+
+    await moviesRepository.updateDescription(object, movieId);
+}
+
 const moviesServices = {
     addNewMovie,
     getMovieById,
     getAllMovies,
     getMoviesByGenre,
+    updateMovieDescription,
 };
 
 export default moviesServices;

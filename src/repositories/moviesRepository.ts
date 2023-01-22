@@ -1,6 +1,6 @@
 import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
-import { Movie, MovieAndGenreIds, MovieInformations, MoviesEntity } from "../protocols/movies.js";
+import { Movie, MovieAndGenreIds, MovieInformations, MoviesEntity, MovieUpdate } from "../protocols/movies.js";
 
 function movieBaseQuery(): string {
     return `WITH genres_of_movies AS(
@@ -10,7 +10,7 @@ function movieBaseQuery(): string {
         JOIN
             genres AS g
         ON 
-            g.id = g_m.genre_i
+            g.id = g_m.genre_id
         GROUP BY
             g_m.movie_id 
     )
@@ -83,6 +83,10 @@ async function findMoviesByGenre(genreId: number): Promise<QueryResult<MovieInfo
     );
 }
 
+async function updateDescription(object: MovieUpdate, movieId: number): Promise<QueryResult<MoviesEntity>> {
+    return await connectionDB.query(`UPDATE  movies SET description=$1 WHERE id = $2`, [object.description, movieId]);
+}
+
 const moviesRepository = {
     insertMovie,
     findByName,
@@ -90,6 +94,7 @@ const moviesRepository = {
     findOneById,
     findAll,
     findMoviesByGenre,
+    updateDescription,
 };
 
 export default moviesRepository;

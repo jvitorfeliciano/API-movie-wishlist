@@ -15,7 +15,7 @@ interface Movie {
 }
 
 interface MovieInformations extends MoviesEntity {
-    genres: GenresEntity[];
+    genres: GenresEntity[] | null;
 }
 interface MovieAndGenreIds {
     genre_id: number;

@@ -33,6 +33,9 @@ async function validateMovieExistenceByName(object: Movie): Promise<void> {
 async function getMovieById(movieId: number): Promise<MovieInformations[]> {
     const movie = await moviesRepository.findOneById(movieId);
 
+    if (movie.rowCount === 0) {
+        throw notFoundError();
+    }
     return movie.rows;
 }
 

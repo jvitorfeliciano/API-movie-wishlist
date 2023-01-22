@@ -19,7 +19,12 @@ export async function addNewMovie(req: Request, res: Response, next: NextFunctio
 export async function getMovieById(req: Request, res: Response, next: NextFunction): Promise<void> {
     const id = Number(req.params.id);
 
-    const movie = await moviesService.getMovieById(id);
+    try {
+        const movie = await moviesService.getMovieById(id);
 
-    res.send(movie);
+        res.send(movie);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
 }

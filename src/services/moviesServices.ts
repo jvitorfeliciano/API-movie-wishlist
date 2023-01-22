@@ -39,9 +39,16 @@ async function getMovieById(movieId: number): Promise<MovieInformations[]> {
     return movie.rows;
 }
 
-const moviesService = {
+async function getAllMovies(): Promise<MovieInformations[]> {
+    const movies = await moviesRepository.findAll();
+
+    return movies.rows;
+}
+
+const moviesServices = {
     addNewMovie,
     getMovieById,
+    getAllMovies,
 };
 
-export default moviesService;
+export default moviesServices;

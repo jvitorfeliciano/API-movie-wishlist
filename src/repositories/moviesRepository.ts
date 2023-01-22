@@ -2,6 +2,27 @@ import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
 import { Movie, MovieAndGenreIds, MovieInformations, MoviesEntity } from "../protocols/movies.js";
 
+function movieBaseQuery(): string {
+    return `WITH genres_of_movies AS(
+        SELECT g_m.movie_id, array_agg(jsonb_build_object('id', g.id, 'name',g.name )) AS genres
+        FROM 
+            genres_movies AS g_m
+        JOIN
+            genres AS g
+        ON 
+            g.id = g_m.genre_id
+        GROUP BY
+            g_m.movie_id 
+    )
+    SELECT  m.*, genres_of_movies.genres
+    FROM 
+        movies AS m
+    LEFT JOIN
+        genres_of_movies
+    ON 
+        m.id =  genres_of_movies.movie_id`;
+}
+
 async function insertMovie(object: Movie): Promise<QueryResult<MoviesEntity>> {
     return await connectionDB.query(
         `INSERT INTO movies (title, description, poster_picture) VALUES ($1, $2, $3) RETURNING id`,
@@ -29,32 +50,11 @@ async function insertGenreAndMovieIds(object: Movie, movieId: number): Promise<Q
 }
 
 async function findOneById(movieId: number): Promise<QueryResult<MovieInformations>> {
-    return await connectionDB.query(
-        `
-        WITH genres_of_movies AS(
-            SELECT g_m.movie_id, array_agg(jsonb_build_object('id', g.id, 'name',g.name )) AS genres
-            FROM 
-                genres_movies AS g_m
-            JOIN
-                genres AS g
-            ON 
-                g.id = g_m.genre_id
-            GROUP BY
-                g_m.movie_id 
-        )
-        SELECT  m.*, genres_of_movies.genres
-        FROM 
-            movies AS m
-        LEFT JOIN
-            genres_of_movies
-        ON 
-            m.id =  genres_of_movies.movie_id
-        WHERE 
-            m.id = $1
+    return await connectionDB.query(movieBaseQuery() + ` WHERE m.id = $1`, [movieId]);
+}
 
-    `,
-        [movieId]
-    );
+async function findAll(): Promise<QueryResult<MovieInformations>> {
+    return await connectionDB.query(movieBaseQuery());
 }
 
 const moviesRepository = {
@@ -62,6 +62,7 @@ const moviesRepository = {
     findByName,
     insertGenreAndMovieIds,
     findOneById,
+    findAll,
 };
 
 export default moviesRepository;

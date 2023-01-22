@@ -1,9 +1,9 @@
-export type ErrorInfos = {
+export interface ErrorInfos {
     name: string;
     message: string;
-};
+}
 
-export type ErrorStatus = {
+export interface ErrorStatus {
     status: number;
     message: string;
-};
+}

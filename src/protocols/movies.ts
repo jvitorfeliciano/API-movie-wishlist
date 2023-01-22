@@ -1,3 +1,5 @@
+import { GenresEntity } from "./genres";
+
 interface MoviesEntity {
     id: number;
     title: string;
@@ -12,4 +14,8 @@ interface Movie {
     genre_ids: number[];
 }
 
-export { MoviesEntity, Movie };
+interface MovieInformations extends MoviesEntity {
+    genres: GenresEntity[];
+}
+
+export { MoviesEntity, Movie, MovieInformations };

@@ -7,7 +7,11 @@ import moviesRepository from "../repositories/moviesRepository.js";
 async function addNewMovie(object: Movie): Promise<void> {
     await validateGenresExistence(object);
     await validateMovieExistenceByName(object);
-    await moviesRepository.insertMovie(object);
+
+    const movie = await moviesRepository.insertMovie(object);
+    const movieId: number = movie.rows[0].id;
+
+    await moviesRepository.insertGenreAndMovieIds(object, movieId);
 }
 
 async function validateGenresExistence(object: Movie): Promise<void> {

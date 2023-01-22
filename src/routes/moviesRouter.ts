@@ -5,5 +5,6 @@ import validateSchema from "../middlewares/moviesMiddlewares.js";
 const moviesRouter = Router();
 
 moviesRouter.post("/movies", validateSchema, addNewMovie);
+moviesRouter.get("/movies");
 
 export default moviesRouter;

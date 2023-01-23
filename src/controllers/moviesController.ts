@@ -63,3 +63,16 @@ export async function updateMovieDescription(req: Request, res: Response): Promi
         res.status(status).send({ message });
     }
 }
+
+export async function deleteMovie(req: Request, res: Response): Promise<void> {
+    const movieId = Number(req.params.id);
+
+    try {
+        await moviesServices.deleteMovie(movieId);
+
+        res.sendStatus(204);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}

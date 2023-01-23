@@ -1,6 +1,7 @@
 import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
 import { GenreCount, GenresEntity, Genre_Ids } from "../protocols/genres.js";
+import { MovieAndGenreIdsEntity } from "../protocols/movies.js";
 
 async function insertGenre(name: string): Promise<QueryResult<GenresEntity>> {
     return await connectionDB.query(`INSERT INTO genres (name) VALUES ($1)`, [name]);
@@ -11,6 +12,7 @@ async function findGenreByName(name: string): Promise<QueryResult<GenresEntity>>
 }
 
 async function deleteById(id: number): Promise<QueryResult<GenresEntity>> {
+    console.log("testeeeee");
     return await connectionDB.query(`DELETE FROM genres WHERE id = $1`, [id]);
 }
 
@@ -44,6 +46,11 @@ async function countGenreApperance(): Promise<QueryResult<GenreCount>> {
     `);
 }
 
+async function deleteGenreAndMovieRelation(genreId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
+    console.log("oieee");
+    return await connectionDB.query(`DELETE FROM genres_movies WHERE genre_id = $1`, [genreId]);
+}
+
 const genresRepository = {
     insertGenre,
     findGenreByName,
@@ -52,6 +59,7 @@ const genresRepository = {
     findAll,
     findManyById,
     countGenreApperance,
+    deleteGenreAndMovieRelation,
 };
 
 export default genresRepository;

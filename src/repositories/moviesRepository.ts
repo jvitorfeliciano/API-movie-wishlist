@@ -1,6 +1,6 @@
 import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
-import { Movie, MovieAndGenreIds, MovieInformations, MoviesEntity, MovieUpdate } from "../protocols/movies.js";
+import { Movie, MovieAndGenreIdsEntity, MovieInformations, MoviesEntity, MovieUpdate } from "../protocols/movies.js";
 
 function movieBaseQuery(): string {
     return `WITH genres_of_movies AS(
@@ -34,7 +34,7 @@ async function findByName(object: Movie): Promise<QueryResult<MoviesEntity>> {
     return await connectionDB.query(`SELECT * FROM movies WHERE title = $1`, [object.title]);
 }
 
-async function insertGenreAndMovieIds(object: Movie, movieId: number): Promise<QueryResult<MovieAndGenreIds>> {
+async function insertGenreAndMovieIds(object: Movie, movieId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
     const arrayValues: number[] = [];
     object.genre_ids.forEach((genreId) => arrayValues.push(genreId, movieId));
 
@@ -87,6 +87,15 @@ async function updateDescription(object: MovieUpdate, movieId: number): Promise<
     return await connectionDB.query(`UPDATE  movies SET description=$1 WHERE id = $2`, [object.description, movieId]);
 }
 
+async function deleteOne(movieId: number): Promise<QueryResult<MoviesEntity>> {
+    return await connectionDB.query(`DELETE FROM movies WHERE id = $1`, [movieId]);
+}
+
+async function deleteGenreAndMovieRelation(genreId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
+    console.log("oieee");
+    return await connectionDB.query(`DELETE FROM genres_movies WHERE movie_id = $1`, [genreId]);
+}
+
 const moviesRepository = {
     insertMovie,
     findByName,
@@ -95,6 +104,8 @@ const moviesRepository = {
     findAll,
     findMoviesByGenre,
     updateDescription,
+    deleteOne,
+    deleteGenreAndMovieRelation,
 };
 
 export default moviesRepository;

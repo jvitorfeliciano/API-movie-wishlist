@@ -9,6 +9,7 @@ interface GenreCount {
 }
 
 type Genre = Omit<GenresEntity, "id">;
+
 type Genre_Ids = number[];
 
 export { GenresEntity, Genre, Genre_Ids, GenreCount };

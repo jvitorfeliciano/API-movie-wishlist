@@ -19,9 +19,13 @@ type MovieUpdate = Pick<Movie, "description">;
 interface MovieInformations extends MoviesEntity {
     genres: GenresEntity[] | null;
 }
-interface MovieAndGenreIds {
+
+interface MovieAndGenreIdsEntity {
+    id: string;
     genre_id: number;
     movie_id: number;
 }
 
-export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds, MovieUpdate };
+type MovieAndGenreIds = Omit<MovieAndGenreIdsEntity, "id">;
+
+export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds, MovieUpdate, MovieAndGenreIdsEntity };

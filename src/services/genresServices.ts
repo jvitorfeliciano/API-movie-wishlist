@@ -20,6 +20,7 @@ async function deleteGenreById(id: number): Promise<void> {
         throw notFoundError();
     }
 
+    await genresRepository.deleteGenreAndMovieRelation(id);
     await genresRepository.deleteById(id);
 }
 

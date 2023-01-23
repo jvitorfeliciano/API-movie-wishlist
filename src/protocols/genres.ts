@@ -3,9 +3,8 @@ interface GenresEntity {
     name: string;
 }
 
-interface GenreCount {
+interface GenreCount extends GenresEntity {
     amount: string;
-    name: string;
 }
 
 type Genre = Omit<GenresEntity, "id">;

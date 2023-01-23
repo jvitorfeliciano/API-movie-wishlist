@@ -21,7 +21,7 @@ interface MovieInformations extends MoviesEntity {
 }
 
 interface MovieAndGenreIdsEntity {
-    id: string;
+    id: number;
     genre_id: number;
     movie_id: number;
 }

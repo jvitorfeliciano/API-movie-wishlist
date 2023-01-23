@@ -36,3 +36,13 @@ export async function getAllGenres(req: Request, res: Response): Promise<void> {
         res.status(status).send({ message });
     }
 }
+
+export async function countGenreApperance(req: Request, res: Response): Promise<void> {
+    try {
+        const count = await genresServices.countGenre();
+        res.send(count);
+    } catch (err) {
+        const { status, message } = treatError(err);
+        res.status(status).send({ message });
+    }
+}

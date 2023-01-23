@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import treatError from "../errors/treatErrors.js";
-import { Genre } from "../protocols/genres.js";
 import { Movie, MovieUpdate } from "../protocols/movies.js";
 import moviesServices from "../services/moviesServices.js";
 

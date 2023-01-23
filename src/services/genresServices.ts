@@ -1,6 +1,6 @@
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { GenresEntity } from "../protocols/genres.js";
+import { GenreCount, GenresEntity } from "../protocols/genres.js";
 import genresRepository from "../repositories/genresRepository.js";
 
 async function addNewGenre(name: string): Promise<void> {
@@ -29,10 +29,17 @@ async function getAllGenres(): Promise<GenresEntity[]> {
     return genres.rows;
 }
 
+async function countGenre(): Promise<GenreCount[]> {
+    const counts = await genresRepository.countGenreApperance();
+
+    return counts.rows;
+}
+
 const genresServices = {
     addNewGenre,
     deleteGenreById,
     getAllGenres,
+    countGenre,
 };
 
 export default genresServices;

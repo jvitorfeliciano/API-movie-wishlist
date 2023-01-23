@@ -1,6 +1,6 @@
 import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
-import { GenresEntity, Genre_Ids } from "../protocols/genres.js";
+import { GenreCount, GenresEntity, Genre_Ids } from "../protocols/genres.js";
 
 async function insertGenre(name: string): Promise<QueryResult<GenresEntity>> {
     return await connectionDB.query(`INSERT INTO genres (name) VALUES ($1)`, [name]);
@@ -26,6 +26,24 @@ async function findManyById(array: Genre_Ids): Promise<QueryResult<GenresEntity>
     return await connectionDB.query(`SELECT * FROM genres WHERE id =  SOME ($1)`, [array]);
 }
 
+async function countGenreApperance(): Promise<QueryResult<GenreCount>> {
+    return await connectionDB.query(`
+        WITH genre_count AS(
+            SELECT genre_id, COUNT(id) AS amount
+            FROM genres_movies
+            GROUP BY genre_id
+        )
+        SELECT g.name, g_c.amount
+        FROM  
+            genres AS g
+        JOIN
+            genre_count AS g_c
+        ON
+            g.id = g_c.genre_id
+                    
+    `);
+}
+
 const genresRepository = {
     insertGenre,
     findGenreByName,
@@ -33,6 +51,7 @@ const genresRepository = {
     findById,
     findAll,
     findManyById,
+    countGenreApperance,
 };
 
 export default genresRepository;

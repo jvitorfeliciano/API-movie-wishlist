@@ -35,10 +35,10 @@ async function countGenreApperance(): Promise<QueryResult<GenreCount>> {
             FROM genres_movies
             GROUP BY genre_id
         )
-        SELECT g.name, g_c.amount
+        SELECT g.*, COALESCE(g_c.amount, 0) AS amount
         FROM  
             genres AS g
-        JOIN
+        LEFT JOIN
             genre_count AS g_c
         ON
             g.id = g_c.genre_id

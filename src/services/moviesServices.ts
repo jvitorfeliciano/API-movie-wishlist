@@ -1,10 +1,10 @@
-import conflictError from "../errors/conflictError.js";
+/* import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
 import { Movie, MovieInformations, MovieUpdate } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
-
-async function addNewMovie(object: Movie): Promise<void> {
+ */
+/* async function addNewMovie(object: Movie): Promise<void> {
     await validateGenresExistence(object);
     await validateMovieExistenceByName(object);
 
@@ -12,40 +12,40 @@ async function addNewMovie(object: Movie): Promise<void> {
     const movieId: number = movie.rows[0].id;
 
     await moviesRepository.insertGenreAndMovieIds(object, movieId);
-}
+} */
 
-async function validateGenresExistence(object: Movie): Promise<void> {
+/* async function validateGenresExistence(object: Movie): Promise<void> {
     const genres = await genresRepository.findManyById(object.genre_ids);
 
     if (genres.rowCount !== object.genre_ids.length) {
         throw notFoundError();
     }
-}
+} */
 
-async function validateMovieExistenceByName(object: Movie): Promise<void> {
+/* async function validateMovieExistenceByName(object: Movie): Promise<void> {
     const movie = await moviesRepository.findByName(object);
 
     if (movie.rowCount > 0) {
         throw conflictError();
     }
-}
+} */
 
-async function getMovieById(movieId: number): Promise<MovieInformations[]> {
+/* async function getMovieById(movieId: number): Promise<MovieInformations[]> {
     const movie = await moviesRepository.findOneById(movieId);
 
     if (movie.rowCount === 0) {
         throw notFoundError();
     }
     return movie.rows;
-}
+} */
 
-async function getAllMovies(): Promise<MovieInformations[]> {
+/* async function getAllMovies(): Promise<MovieInformations[]> {
     const movies = await moviesRepository.findAll();
 
     return movies.rows;
-}
+} */
 
-async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
+/* async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
     const genre = await genresRepository.findById(genreId);
 
     if (genre.rowCount === 0) {
@@ -55,9 +55,9 @@ async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
     const movies = await moviesRepository.findMoviesByGenre(genreId);
 
     return movies.rows;
-}
+} */
 
-async function updateMovieDescription(object: MovieUpdate, movieId: number): Promise<void> {
+/* async function updateMovieDescription(object: MovieUpdate, movieId: number): Promise<void> {
     const movie = await moviesRepository.findOneById(movieId);
 
     if (movie.rowCount === 0) {
@@ -65,9 +65,9 @@ async function updateMovieDescription(object: MovieUpdate, movieId: number): Pro
     }
 
     await moviesRepository.updateDescription(object, movieId);
-}
+} */
 
-async function deleteMovie(movieId: number): Promise<void> {
+/* async function deleteMovie(movieId: number): Promise<void> {
     const movie = await moviesRepository.findOneById(movieId);
 
     if (movie.rowCount === 0) {
@@ -76,15 +76,15 @@ async function deleteMovie(movieId: number): Promise<void> {
 
     await moviesRepository.deleteGenreAndMovieRelation(movieId);
     await moviesRepository.deleteOne(movieId);
-}
+} */
 
 const moviesServices = {
-    addNewMovie,
-    getMovieById,
-    getAllMovies,
-    getMoviesByGenre,
-    updateMovieDescription,
-    deleteMovie,
+    /* addNewMovie, */
+   /*  getMovieById, */
+   /*  getAllMovies, */
+   /*  getMoviesByGenre, */
+   /*  updateMovieDescription, */
+  /*   deleteMovie, */
 };
 
 export default moviesServices;

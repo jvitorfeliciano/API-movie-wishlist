@@ -1,62 +1,54 @@
-import { QueryResult } from "pg";
-import connectionDB from "../db/db.js";
-import { GenreCount, GenresEntity, Genre_Ids } from "../protocols/genres.js";
-import { MovieAndGenreIdsEntity } from "../protocols/movies.js";
+import prisma from "../db/db.js";
+import { Genre_Ids } from "../protocols/genres.js";
 
-async function insertGenre(name: string): Promise<QueryResult<GenresEntity>> {
-    return await connectionDB.query(`INSERT INTO genres (name) VALUES ($1)`, [name]);
+async function insertGenre(name: string) {
+    return await prisma.genre.create({
+        data: {
+            name,
+        },
+    });
 }
 
-async function findGenreByName(name: string): Promise<QueryResult<GenresEntity>> {
-    return await connectionDB.query(`SELECT * FROM genres WHERE name = $1`, [name]);
+async function findMany() {
+    return await prisma.genre.findMany();
 }
 
-async function deleteById(id: number): Promise<QueryResult<GenresEntity>> {
-    console.log("testeeeee");
-    return await connectionDB.query(`DELETE FROM genres WHERE id = $1`, [id]);
+async function findGenreByName(name: string) {
+    return await prisma.genre.findFirst({
+        where: {
+            name,
+        },
+    });
 }
 
-async function findById(id: number): Promise<QueryResult<GenresEntity>> {
-    return await connectionDB.query(`SELECT * FROM genres WHERE id = $1`, [id]);
+async function deleteById(id: number) {
+    return await prisma.genre.delete({
+        where: {
+            id,
+        },
+    });
 }
 
-async function findAll(): Promise<QueryResult<GenresEntity>> {
-    return await connectionDB.query(`SELECT * FROM genres`);
+async function findById(id: number) {
+    return await prisma.genre.findUnique({
+        where: {
+            id,
+        },
+    });
 }
 
-async function findManyById(array: Genre_Ids): Promise<QueryResult<GenresEntity>> {
-    return await connectionDB.query(`SELECT * FROM genres WHERE id =  SOME ($1)`, [array]);
-}
+async function findManyById(array: Genre_Ids) {}
 
-async function countGenreApperance(): Promise<QueryResult<GenreCount>> {
-    return await connectionDB.query(`
-        WITH genre_count AS(
-            SELECT genre_id, COUNT(id) AS amount
-            FROM genres_movies
-            GROUP BY genre_id
-        )
-        SELECT g.*, COALESCE(g_c.amount, 0) AS amount
-        FROM  
-            genres AS g
-        LEFT JOIN
-            genre_count AS g_c
-        ON
-            g.id = g_c.genre_id
-                    
-    `);
-}
+async function countGenreApperance() {}
 
-async function deleteGenreAndMovieRelation(genreId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
-    console.log("oieee");
-    return await connectionDB.query(`DELETE FROM genres_movies WHERE genre_id = $1`, [genreId]);
-}
+async function deleteGenreAndMovieRelation(genreId: number) {}
 
 const genresRepository = {
     insertGenre,
     findGenreByName,
     deleteById,
     findById,
-    findAll,
+    findMany,
     findManyById,
     countGenreApperance,
     deleteGenreAndMovieRelation,

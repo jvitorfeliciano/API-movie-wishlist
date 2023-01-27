@@ -26,7 +26,6 @@ export async function deleteGenreById(req: Request, res: Response): Promise<void
         res.status(status).send({ message });
     }
 }
-
 export async function getAllGenres(req: Request, res: Response): Promise<void> {
     try {
         const genres = await genresServices.getAllGenres();
@@ -37,7 +36,7 @@ export async function getAllGenres(req: Request, res: Response): Promise<void> {
     }
 }
 
-export async function countGenreApperance(req: Request, res: Response): Promise<void> {
+/* export async function countGenreApperance(req: Request, res: Response): Promise<void> {
     try {
         const count = await genresServices.countGenre();
         res.send(count);
@@ -46,3 +45,4 @@ export async function countGenreApperance(req: Request, res: Response): Promise<
         res.status(status).send({ message });
     }
 }
+ */

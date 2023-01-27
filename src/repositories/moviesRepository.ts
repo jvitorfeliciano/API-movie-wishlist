@@ -2,99 +2,24 @@ import { QueryResult } from "pg";
 import connectionDB from "../db/db.js";
 import { Movie, MovieAndGenreIdsEntity, MovieInformations, MoviesEntity, MovieUpdate } from "../protocols/movies.js";
 
-function movieBaseQuery(): string {
-    return `WITH genres_of_movies AS(
-        SELECT g_m.movie_id, array_agg(jsonb_build_object('id', g.id, 'name',g.name )) AS genres
-        FROM 
-            genres_movies AS g_m
-        JOIN
-            genres AS g
-        ON 
-            g.id = g_m.genre_id
-        GROUP BY
-            g_m.movie_id 
-    )
-    SELECT  m.*, genres_of_movies.genres
-    FROM 
-        movies AS m
-    JOIN
-        genres_of_movies
-    ON 
-        m.id =  genres_of_movies.movie_id`;
-}
+function movieBaseQuery() {}
 
-async function insertMovie(object: Movie): Promise<QueryResult<MoviesEntity>> {
-    return await connectionDB.query(
-        `INSERT INTO movies (title, description, poster_picture) VALUES ($1, $2, $3) RETURNING id`,
-        [object.title, object.description, object.poster_picture]
-    );
-}
+async function insertMovie(object: Movie) {}
 
-async function findByName(object: Movie): Promise<QueryResult<MoviesEntity>> {
-    return await connectionDB.query(`SELECT * FROM movies WHERE title = $1`, [object.title]);
-}
+async function findByName(object: Movie) {}
 
-async function insertGenreAndMovieIds(object: Movie, movieId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
-    const arrayValues: number[] = [];
-    object.genre_ids.forEach((genreId) => arrayValues.push(genreId, movieId));
+async function insertGenreAndMovieIds(object: Movie, movieId: number) {}
 
-    const queryValues: string[] = [];
-    for (let i = 0; i <= arrayValues.length - 2; i += 2) {
-        queryValues.push(`($${i + 1}`, `$${i + 2})`);
-    }
+async function findOneById(movieId: number) {}
 
-    return await connectionDB.query(
-        `INSERT INTO genres_movies (genre_id, movie_id) VALUES ${queryValues.join(", ")}`,
-        arrayValues
-    );
-}
+async function findAll() {}
 
-async function findOneById(movieId: number): Promise<QueryResult<MovieInformations>> {
-    return await connectionDB.query(movieBaseQuery() + ` WHERE m.id = $1`, [movieId]);
-}
+async function findMoviesByGenre(genreId: number) {}
 
-async function findAll(): Promise<QueryResult<MovieInformations>> {
-    return await connectionDB.query(movieBaseQuery());
-}
+async function updateDescription(object: MovieUpdate, movieId: number) {}
+async function deleteOne(movieId: number) {}
 
-async function findMoviesByGenre(genreId: number): Promise<QueryResult<MovieInformations>> {
-    return await connectionDB.query(
-        `WITH genres_of_movies AS(
-        SELECT g_m.movie_id, array_agg(jsonb_build_object('id', g.id, 'name',g.name )) AS genres
-        FROM 
-            genres_movies AS g_m
-        JOIN
-            genres AS g
-        ON 
-            g.id = g_m.genre_id
-        WHERE
-            g.id = $1
-        GROUP BY
-            g_m.movie_id 
-    )
-    SELECT  m.*, genres_of_movies.genres
-    FROM 
-        movies AS m
-    JOIN
-        genres_of_movies
-    ON 
-        m.id =  genres_of_movies.movie_id`,
-        [genreId]
-    );
-}
-
-async function updateDescription(object: MovieUpdate, movieId: number): Promise<QueryResult<MoviesEntity>> {
-    return await connectionDB.query(`UPDATE  movies SET description=$1 WHERE id = $2`, [object.description, movieId]);
-}
-
-async function deleteOne(movieId: number): Promise<QueryResult<MoviesEntity>> {
-    return await connectionDB.query(`DELETE FROM movies WHERE id = $1`, [movieId]);
-}
-
-async function deleteGenreAndMovieRelation(genreId: number): Promise<QueryResult<MovieAndGenreIdsEntity>> {
-    console.log("oieee");
-    return await connectionDB.query(`DELETE FROM genres_movies WHERE movie_id = $1`, [genreId]);
-}
+async function deleteGenreAndMovieRelation(genreId: number) {}
 
 const moviesRepository = {
     insertMovie,

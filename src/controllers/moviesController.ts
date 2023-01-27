@@ -1,9 +1,9 @@
-/* import { Request, Response } from "express";
+ import { Request, Response } from "express";
 import treatError from "../errors/treatErrors.js";
 import { Movie, MovieUpdate } from "../protocols/movies.js";
-import moviesServices from "../services/moviesServices.js"; */
+import moviesServices from "../services/moviesServices.js"; 
 
-/*  export async function addNewMovie(req: Request, res: Response): Promise<void> {
+  export async function addNewMovie(req: Request, res: Response): Promise<void> {
     const movieInformations = req.body as Movie;
 
     try {
@@ -13,7 +13,7 @@ import moviesServices from "../services/moviesServices.js"; */
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
+} 
  
 /* export async function getMovieById(req: Request, res: Response): Promise<void> {
     const id = Number(req.params.id);

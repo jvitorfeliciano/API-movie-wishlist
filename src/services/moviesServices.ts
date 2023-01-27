@@ -1,34 +1,31 @@
-/* import conflictError from "../errors/conflictError.js";
+import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
 import { Movie, MovieInformations, MovieUpdate } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
- */
-/* async function addNewMovie(object: Movie): Promise<void> {
+
+async function addNewMovie(object: Movie): Promise<void> {
     await validateGenresExistence(object);
     await validateMovieExistenceByName(object);
 
-    const movie = await moviesRepository.insertMovie(object);
-    const movieId: number = movie.rows[0].id;
+    await moviesRepository.insertMovie(object);
+}
 
-    await moviesRepository.insertGenreAndMovieIds(object, movieId);
-} */
-
-/* async function validateGenresExistence(object: Movie): Promise<void> {
+async function validateGenresExistence(object: Movie): Promise<void> {
     const genres = await genresRepository.findManyById(object.genre_ids);
 
-    if (genres.rowCount !== object.genre_ids.length) {
+    if (genres.length !== object.genre_ids.length) {
         throw notFoundError();
     }
-} */
+}
 
-/* async function validateMovieExistenceByName(object: Movie): Promise<void> {
+async function validateMovieExistenceByName(object: Movie): Promise<void> {
     const movie = await moviesRepository.findByName(object);
 
-    if (movie.rowCount > 0) {
+    if (movie !== null) {
         throw conflictError();
     }
-} */
+}
 
 /* async function getMovieById(movieId: number): Promise<MovieInformations[]> {
     const movie = await moviesRepository.findOneById(movieId);
@@ -79,12 +76,12 @@ import moviesRepository from "../repositories/moviesRepository.js";
 } */
 
 const moviesServices = {
-    /* addNewMovie, */
-   /*  getMovieById, */
-   /*  getAllMovies, */
-   /*  getMoviesByGenre, */
-   /*  updateMovieDescription, */
-  /*   deleteMovie, */
+    addNewMovie,
+    /*  getMovieById, */
+    /*  getAllMovies, */
+    /*  getMoviesByGenre, */
+    /*  updateMovieDescription, */
+    /*   deleteMovie, */
 };
 
 export default moviesServices;

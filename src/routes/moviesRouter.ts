@@ -1,16 +1,10 @@
 import { Router } from "express";
-import /* addNewMovie, */
-/* deleteMovie, */
-/*  getAllMovies, */
-/* getMovieById, */
-/*  getMoviesByGenre, */
-/*  updateMovieDescription, */
-"../controllers/moviesController.js";
+import { addNewMovie } from "../controllers/moviesController.js";
 import { validateUpdateSchema, validateSchema } from "../middlewares/moviesMiddlewares.js";
 
 const moviesRouter = Router();
 
-/* moviesRouter.post("/movies", validateSchema, addNewMovie); */
+moviesRouter.post("/movies", validateSchema, addNewMovie);
 /* moviesRouter.get("/movies", getAllMovies); */
 /* moviesRouter.get("/movies/:id", getMovieById); */
 /* moviesRouter.get("/movies/genres/:id", getMoviesByGenre); */

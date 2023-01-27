@@ -1,14 +1,28 @@
-import { QueryResult } from "pg";
-import connectionDB from "../db/db.js";
+import prisma from "../db/db.js";
 import { Movie, MovieAndGenreIdsEntity, MovieInformations, MoviesEntity, MovieUpdate } from "../protocols/movies.js";
 
-function movieBaseQuery() {}
+async function findByName(object: Movie) {
+    return await prisma.movie.findFirst({
+        where: {
+            title: object.title,
+        },
+    });
+}
 
-async function insertMovie(object: Movie) {}
+async function insertMovie(object: Movie) {
+    const ids = object.genre_ids.map((id) => ({ id }));
 
-async function findByName(object: Movie) {}
-
-async function insertGenreAndMovieIds(object: Movie, movieId: number) {}
+    return await prisma.movie.create({
+        data: {
+            title: object.title,
+            poster_picture: object.poster_picture,
+            description: object.description,
+            genres: {
+                connect: ids,
+            },
+        },
+    });
+}
 
 async function findOneById(movieId: number) {}
 
@@ -24,7 +38,6 @@ async function deleteGenreAndMovieRelation(genreId: number) {}
 const moviesRepository = {
     insertMovie,
     findByName,
-    insertGenreAndMovieIds,
     findOneById,
     findAll,
     findMoviesByGenre,

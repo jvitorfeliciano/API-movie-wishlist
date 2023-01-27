@@ -42,7 +42,7 @@ GET: /genres/amount
 This route sends the amount of appearance of each genre.
 
 DELETE: /genres/:id
-This routes deletes the genre with the given id.
+This route deletes the genre with the given id.
 ```
 
 
@@ -51,12 +51,12 @@ Movies routes:
 
 POST: /movies
 BODY: {
-    title: "movie_title",
+   <span style="color:blue"> title </span>: "movie_title",
     poster_picture:"movie_poster_picture"
     description:"movie_description"
     genre_ids:[genre_ids]
 }
-This routes creates a new movie.
+This route creates a new movie.
 
 GET: /movies
 This route sends all movies recorded.
@@ -69,10 +69,10 @@ This route sends the movies accordingly with the given genre id.
 
 PATCH: /movies/:id
 BODY: { description:"movie_description"}
-This routes updates the movie description with the given id.
+This route updates the movie description with the given id.
 
 DELETE: /movies/:id
-This routes deletes the movie with the given id.
+This route deletes the movie with the given id.
 ```
 
 ## License

@@ -9,6 +9,10 @@ async function insertGenre(name: string) {
     });
 }
 
+async function findMany() {
+    return await prisma.genre.findMany();
+}
+
 async function findGenreByName(name: string) {
     return await prisma.genre.findFirst({
         where: {
@@ -21,7 +25,6 @@ async function deleteById(id: number) {}
 
 async function findById(id: number) {}
 
-async function findAll() {}
 async function findManyById(array: Genre_Ids) {}
 
 async function countGenreApperance() {}
@@ -33,7 +36,7 @@ const genresRepository = {
     findGenreByName,
     deleteById,
     findById,
-    findAll,
+    findMany,
     findManyById,
     countGenreApperance,
     deleteGenreAndMovieRelation,

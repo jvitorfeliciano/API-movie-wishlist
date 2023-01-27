@@ -13,22 +13,21 @@ async function addNewGenre(name: string): Promise<void> {
     await genresRepository.insertGenre(name);
 }
 
-/* async function deleteGenreById(id: number): Promise<void> {
+/*  async function deleteGenreById(id: number): Promise<void> {
     const genre = await genresRepository.findById(id);
 
     if (genre.rowCount === 0) {
         throw notFoundError();
     }
 
-    await genresRepository.deleteGenreAndMovieRelation(id);
     await genresRepository.deleteById(id);
-} */
+}  */
 
-/* async function getAllGenres(): Promise<GenresEntity[]> {
-    const genres = await genresRepository.findAll();
+async function getAllGenres(): Promise<GenresEntity[]> {
+    const genres = await genresRepository.findMany();
 
-    return genres.rows;
-} */
+    return genres;
+}
 
 /* async function countGenre(): Promise<GenreCount[]> {
     const counts = await genresRepository.countGenreApperance();
@@ -39,7 +38,7 @@ async function addNewGenre(name: string): Promise<void> {
 const genresServices = {
     addNewGenre,
     /* deleteGenreById, */
-    /*   getAllGenres, */
+    getAllGenres,
     /*  countGenre, */
 };
 

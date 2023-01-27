@@ -23,8 +23,16 @@ async function insertMovie(object: Movie) {
         },
     });
 }
-
-async function findOneById(movieId: number) {}
+async function findOneById(id: number) {
+    return await prisma.movie.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            genres: true,
+        },
+    });
+}
 
 async function findAll() {}
 

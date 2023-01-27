@@ -27,14 +27,14 @@ async function validateMovieExistenceByName(object: Movie): Promise<void> {
     }
 }
 
-/* async function getMovieById(movieId: number): Promise<MovieInformations[]> {
+async function getMovieById(movieId: number) {
     const movie = await moviesRepository.findOneById(movieId);
 
-    if (movie.rowCount === 0) {
+    if (movie === null) {
         throw notFoundError();
     }
-    return movie.rows;
-} */
+    return movie;
+}
 
 /* async function getAllMovies(): Promise<MovieInformations[]> {
     const movies = await moviesRepository.findAll();
@@ -77,7 +77,7 @@ async function validateMovieExistenceByName(object: Movie): Promise<void> {
 
 const moviesServices = {
     addNewMovie,
-    /*  getMovieById, */
+    getMovieById,
     /*  getAllMovies, */
     /*  getMoviesByGenre, */
     /*  updateMovieDescription, */

@@ -42,17 +42,17 @@ async function getAllMovies(): Promise<MovieInformations[]> {
     return movies;
 }
 
-/* async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
-    const genre = await genresRepository.findById(genreId);
+async function getMoviesByGenre(id: number) {
+    const genre = await genresRepository.findById(id);
 
-    if (genre.rowCount === 0) {
+    if (genre === null) {
         throw notFoundError();
     }
 
-    const movies = await moviesRepository.findMoviesByGenre(genreId);
+    const movies = await moviesRepository.findMoviesByGenre(id);
 
-    return movies.rows;
-} */
+    return movies;
+}
 
 /* async function updateMovieDescription(object: MovieUpdate, movieId: number): Promise<void> {
     const movie = await moviesRepository.findOneById(movieId);
@@ -79,7 +79,7 @@ const moviesServices = {
     addNewMovie,
     getMovieById,
     getAllMovies,
-    /*  getMoviesByGenre, */
+    getMoviesByGenre,
     /*  updateMovieDescription, */
     /*   deleteMovie, */
 };

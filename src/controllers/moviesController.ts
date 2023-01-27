@@ -38,7 +38,7 @@ export async function getAllMovies(req: Request, res: Response): Promise<void> {
     }
 }
 
-/* export async function getMoviesByGenre(req: Request, res: Response): Promise<void> {
+export async function getMoviesByGenre(req: Request, res: Response): Promise<void> {
     const genrerId = Number(req.params.id);
 
     try {
@@ -48,7 +48,7 @@ export async function getAllMovies(req: Request, res: Response): Promise<void> {
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
+}
 
 /* export async function updateMovieDescription(req: Request, res: Response): Promise<void> {
     const movieId = Number(req.params.id);

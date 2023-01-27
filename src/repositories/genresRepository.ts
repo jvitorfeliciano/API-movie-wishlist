@@ -37,11 +37,19 @@ async function findById(id: number) {
     });
 }
 
-async function findManyById(array: Genre_Ids) {}
+async function findManyById(array: Genre_Ids) {
+    return await prisma.genre.findMany({
+        where: {
+            id: {
+                in: [...array],
+            },
+        },
+    });
+}
 
-async function countGenreApperance() {}
+/* async function countGenreApperance() {}
 
-async function deleteGenreAndMovieRelation(genreId: number) {}
+async function deleteGenreAndMovieRelation(genreId: number) {} */
 
 const genresRepository = {
     insertGenre,
@@ -50,8 +58,8 @@ const genresRepository = {
     findById,
     findMany,
     findManyById,
-    countGenreApperance,
-    deleteGenreAndMovieRelation,
+    /*  countGenreApperance,
+    deleteGenreAndMovieRelation, */
 };
 
 export default genresRepository;

@@ -1,9 +1,9 @@
-/* import { Request, Response } from "express";
+import { Request, Response } from "express";
 import treatError from "../errors/treatErrors.js";
 import { Movie, MovieUpdate } from "../protocols/movies.js";
-import moviesServices from "../services/moviesServices.js"; */
+import moviesServices from "../services/moviesServices.js";
 
-/*  export async function addNewMovie(req: Request, res: Response): Promise<void> {
+export async function addNewMovie(req: Request, res: Response): Promise<void> {
     const movieInformations = req.body as Movie;
 
     try {
@@ -13,9 +13,9 @@ import moviesServices from "../services/moviesServices.js"; */
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
- 
-/* export async function getMovieById(req: Request, res: Response): Promise<void> {
+}
+
+export async function getMovieById(req: Request, res: Response): Promise<void> {
     const id = Number(req.params.id);
 
     try {
@@ -27,8 +27,8 @@ import moviesServices from "../services/moviesServices.js"; */
         res.status(status).send({ message });
     }
 }
- */
-/* export async function getAllMovies(req: Request, res: Response): Promise<void> {
+
+export async function getAllMovies(req: Request, res: Response): Promise<void> {
     try {
         const movies = await moviesServices.getAllMovies();
         res.send(movies);
@@ -36,9 +36,9 @@ import moviesServices from "../services/moviesServices.js"; */
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
+}
 
-/* export async function getMoviesByGenre(req: Request, res: Response): Promise<void> {
+export async function getMoviesByGenre(req: Request, res: Response): Promise<void> {
     const genrerId = Number(req.params.id);
 
     try {
@@ -48,7 +48,7 @@ import moviesServices from "../services/moviesServices.js"; */
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
+}
 
 /* export async function updateMovieDescription(req: Request, res: Response): Promise<void> {
     const movieId = Number(req.params.id);

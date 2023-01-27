@@ -33,8 +33,13 @@ async function findOneById(id: number) {
         },
     });
 }
-
-async function findAll() {}
+async function findMany() {
+    return await prisma.movie.findMany({
+        include: {
+            genres: true,
+        },
+    });
+}
 
 async function findMoviesByGenre(genreId: number) {}
 
@@ -47,7 +52,7 @@ const moviesRepository = {
     insertMovie,
     findByName,
     findOneById,
-    findAll,
+    findMany,
     findMoviesByGenre,
     updateDescription,
     deleteOne,

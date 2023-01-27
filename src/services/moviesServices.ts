@@ -36,11 +36,11 @@ async function getMovieById(movieId: number) {
     return movie;
 }
 
-/* async function getAllMovies(): Promise<MovieInformations[]> {
-    const movies = await moviesRepository.findAll();
+async function getAllMovies(): Promise<MovieInformations[]> {
+    const movies = await moviesRepository.findMany();
 
-    return movies.rows;
-} */
+    return movies;
+}
 
 /* async function getMoviesByGenre(genreId: number): Promise<MovieInformations[]> {
     const genre = await genresRepository.findById(genreId);
@@ -78,7 +78,7 @@ async function getMovieById(movieId: number) {
 const moviesServices = {
     addNewMovie,
     getMovieById,
-    /*  getAllMovies, */
+    getAllMovies,
     /*  getMoviesByGenre, */
     /*  updateMovieDescription, */
     /*   deleteMovie, */

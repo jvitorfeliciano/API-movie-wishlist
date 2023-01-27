@@ -15,7 +15,7 @@ export async function addNewGenre(req: Request, res: Response): Promise<void> {
     }
 }
 
-/* export async function deleteGenreById(req: Request, res: Response): Promise<void> {
+export async function deleteGenreById(req: Request, res: Response): Promise<void> {
     const id = Number(req.params.id);
 
     try {
@@ -25,8 +25,7 @@ export async function addNewGenre(req: Request, res: Response): Promise<void> {
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
-
+}
 export async function getAllGenres(req: Request, res: Response): Promise<void> {
     try {
         const genres = await genresServices.getAllGenres();

@@ -21,9 +21,21 @@ async function findGenreByName(name: string) {
     });
 }
 
-async function deleteById(id: number) {}
+async function deleteById(id: number) {
+    return await prisma.genre.delete({
+        where: {
+            id,
+        },
+    });
+}
 
-async function findById(id: number) {}
+async function findById(id: number) {
+    return await prisma.genre.findUnique({
+        where: {
+            id,
+        },
+    });
+}
 
 async function findManyById(array: Genre_Ids) {}
 

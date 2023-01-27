@@ -13,15 +13,15 @@ async function addNewGenre(name: string): Promise<void> {
     await genresRepository.insertGenre(name);
 }
 
-/*  async function deleteGenreById(id: number): Promise<void> {
+async function deleteGenreById(id: number): Promise<void> {
     const genre = await genresRepository.findById(id);
 
-    if (genre.rowCount === 0) {
+    if (genre === null) {
         throw notFoundError();
     }
 
     await genresRepository.deleteById(id);
-}  */
+}
 
 async function getAllGenres(): Promise<GenresEntity[]> {
     const genres = await genresRepository.findMany();
@@ -37,7 +37,7 @@ async function getAllGenres(): Promise<GenresEntity[]> {
 
 const genresServices = {
     addNewGenre,
-    /* deleteGenreById, */
+    deleteGenreById,
     getAllGenres,
     /*  countGenre, */
 };

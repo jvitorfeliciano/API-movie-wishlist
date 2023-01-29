@@ -1,5 +1,5 @@
 import prisma from "../db/db.js";
-import { Movie } from "../protocols/movies.js";
+import { Movie, MovieUpdate } from "../protocols/movies.js";
 
 async function findByName(object: Movie) {
     return await prisma.movie.findFirst({
@@ -56,20 +56,26 @@ async function findMoviesByGenre(id: number) {
     });
 }
 
-/* async function updateDescription(object: MovieUpdate, movieId: number) {}
-async function deleteOne(movieId: number) {}
+async function updateDescription(object: MovieUpdate, movieId: number) {
+    return await prisma.movie.update({
+        where: {
+            id: movieId,
+        },
+        data: {
+            description: object.description,
+        },
+    });
+}
+/* async function deleteOne(movieId: number) {} */
 
-async function deleteGenreAndMovieRelation(genreId: number) {}
- */
 const moviesRepository = {
     insertMovie,
     findByName,
     findOneById,
     findMany,
     findMoviesByGenre,
-    /* updateDescription,
-    deleteOne,
-    deleteGenreAndMovieRelation, */
+    updateDescription,
+   /*  deleteOne, */
 };
 
 export default moviesRepository;

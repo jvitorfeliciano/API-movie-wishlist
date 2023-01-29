@@ -66,7 +66,13 @@ async function updateDescription(object: MovieUpdate, movieId: number) {
         },
     });
 }
-/* async function deleteOne(movieId: number) {} */
+async function deleteOne(movieId: number) {
+    return await prisma.movie.delete({
+        where: {
+            id: movieId,
+        },
+    });
+}
 
 const moviesRepository = {
     insertMovie,
@@ -75,7 +81,7 @@ const moviesRepository = {
     findMany,
     findMoviesByGenre,
     updateDescription,
-   /*  deleteOne, */
+    deleteOne,
 };
 
 export default moviesRepository;

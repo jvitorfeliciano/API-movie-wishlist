@@ -64,7 +64,7 @@ export async function updateMovieDescription(req: Request, res: Response): Promi
     }
 }
 
-/* export async function deleteMovie(req: Request, res: Response): Promise<void> {
+export async function deleteMovie(req: Request, res: Response): Promise<void> {
     const movieId = Number(req.params.id);
 
     try {
@@ -76,4 +76,3 @@ export async function updateMovieDescription(req: Request, res: Response): Promi
         res.status(status).send({ message });
     }
 }
- */

@@ -50,7 +50,7 @@ export async function getMoviesByGenre(req: Request, res: Response): Promise<voi
     }
 }
 
-/* export async function updateMovieDescription(req: Request, res: Response): Promise<void> {
+export async function updateMovieDescription(req: Request, res: Response): Promise<void> {
     const movieId = Number(req.params.id);
     const movieDescription = req.body as MovieUpdate;
 
@@ -62,7 +62,7 @@ export async function getMoviesByGenre(req: Request, res: Response): Promise<voi
         const { status, message } = treatError(err);
         res.status(status).send({ message });
     }
-} */
+}
 
 /* export async function deleteMovie(req: Request, res: Response): Promise<void> {
     const movieId = Number(req.params.id);

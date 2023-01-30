@@ -1,7 +1,8 @@
+import { Genre, Movie } from "@prisma/client";
 import prisma from "../db/db.js";
-import { Movie, MovieUpdate } from "../protocols/movies.js";
+import { MovieInterface, MovieUpdate } from "../protocols/movies.js";
 
-async function findByName(object: Movie) {
+async function findByName(object: MovieInterface): Promise<Movie | null> {
     return await prisma.movie.findFirst({
         where: {
             title: object.title,
@@ -9,7 +10,7 @@ async function findByName(object: Movie) {
     });
 }
 
-async function insertMovie(object: Movie) {
+async function insertMovie(object: MovieInterface): Promise<Movie> {
     const ids = object.genre_ids.map((id) => ({ id }));
 
     return await prisma.movie.create({
@@ -23,7 +24,12 @@ async function insertMovie(object: Movie) {
         },
     });
 }
-async function findOneById(id: number) {
+async function findOneById(id: number): Promise<
+    | (Movie & {
+          genres: Genre[];
+      })
+    | null
+> {
     return await prisma.movie.findUnique({
         where: {
             id,
@@ -33,7 +39,13 @@ async function findOneById(id: number) {
         },
     });
 }
-async function findMany() {
+async function findMany(): Promise<
+    Array<
+        Movie & {
+            genres: Genre[];
+        }
+    >
+> {
     return await prisma.movie.findMany({
         include: {
             genres: true,
@@ -41,7 +53,13 @@ async function findMany() {
     });
 }
 
-async function findMoviesByGenre(id: number) {
+async function findMoviesByGenre(id: number): Promise<{
+    movies: Array<
+        Movie & {
+            genres: Genre[];
+        }
+    >;
+} | null> {
     return await prisma.genre.findUnique({
         where: {
             id,
@@ -56,7 +74,7 @@ async function findMoviesByGenre(id: number) {
     });
 }
 
-async function updateDescription(object: MovieUpdate, movieId: number) {
+async function updateDescription(object: MovieUpdate, movieId: number): Promise<Movie> {
     return await prisma.movie.update({
         where: {
             id: movieId,
@@ -66,7 +84,7 @@ async function updateDescription(object: MovieUpdate, movieId: number) {
         },
     });
 }
-async function deleteOne(movieId: number) {
+async function deleteOne(movieId: number): Promise<Movie> {
     return await prisma.movie.delete({
         where: {
             id: movieId,

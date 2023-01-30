@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { Movie, MovieUpdate } from "../protocols/movies.js";
+import { MovieInterface, MovieUpdate } from "../protocols/movies.js";
 import movieSchema from "../schemas/movieSchema.js";
 import movieUpdateSchema from "../schemas/movieUpdateSchema.js";
 
 export function validateSchema(req: Request, res: Response, next: NextFunction): void {
-    const movieInformations = req.body as Movie;
+    const movieInformations = req.body as MovieInterface;
 
     const { error } = movieSchema.validate(movieInformations);
 

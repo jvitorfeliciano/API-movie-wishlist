@@ -1,7 +1,7 @@
+import { Genre } from "@prisma/client";
 import prisma from "../db/db.js";
 import { Genre_Ids } from "../protocols/genres.js";
-
-async function insertGenre(name: string) {
+async function insertGenre(name: string): Promise<Genre> {
     return await prisma.genre.create({
         data: {
             name,
@@ -9,11 +9,11 @@ async function insertGenre(name: string) {
     });
 }
 
-async function findMany() {
+async function findMany(): Promise<Genre[]> {
     return await prisma.genre.findMany();
 }
 
-async function findGenreByName(name: string) {
+async function findGenreByName(name: string): Promise<Genre | null> {
     return await prisma.genre.findFirst({
         where: {
             name,
@@ -21,7 +21,7 @@ async function findGenreByName(name: string) {
     });
 }
 
-async function deleteById(id: number) {
+async function deleteById(id: number): Promise<Genre> {
     return await prisma.genre.delete({
         where: {
             id,
@@ -29,7 +29,7 @@ async function deleteById(id: number) {
     });
 }
 
-async function findById(id: number) {
+async function findById(id: number): Promise<Genre | null> {
     return await prisma.genre.findUnique({
         where: {
             id,
@@ -37,7 +37,7 @@ async function findById(id: number) {
     });
 }
 
-async function findManyById(array: Genre_Ids) {
+async function findManyById(array: Genre_Ids): Promise<Genre[]> {
     return await prisma.genre.findMany({
         where: {
             id: {
@@ -47,7 +47,15 @@ async function findManyById(array: Genre_Ids) {
     });
 }
 
-async function countGenreApperance() {
+async function countGenreApperance(): Promise<
+    Array<
+        Genre & {
+            _count: {
+                movies: number;
+            };
+        }
+    >
+> {
     return await prisma.genre.findMany({
         include: {
             _count: {

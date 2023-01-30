@@ -65,12 +65,19 @@ async function updateMovieStatus(userId: number, movieId: number) {
     await usersRepository.updateMovieStatus(userId, movieId);
 }
 
+async function deleteMovieFromUserList(userId: number, movieId: number) {
+    await moviesServices.getMovieById(movieId);
+
+    await usersRepository.deleteUserMovie(userId, movieId);
+}
+
 const usersServices = {
     createUser,
     validateSignIn,
     addMovieToUserList,
     getUserMovies,
     updateMovieStatus,
+    deleteMovieFromUserList,
 };
 
 export default usersServices;

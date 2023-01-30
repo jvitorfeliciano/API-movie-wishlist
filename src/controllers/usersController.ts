@@ -16,7 +16,7 @@ export async function addMovieToUserList(req: AuthenticatedRequest, res: Respons
     }
 }
 
-export async function getUserMovies(req: AuthenticatedRequest, res: Response) {
+export async function getUserMovies(req: AuthenticatedRequest, res: Response): Promise<void> {
     const userId = req.userId;
 
     try {
@@ -28,14 +28,27 @@ export async function getUserMovies(req: AuthenticatedRequest, res: Response) {
     }
 }
 
-export async function updateMovieStatus(req: AuthenticatedRequest, res: Response) {
+export async function updateMovieStatus(req: AuthenticatedRequest, res: Response): Promise<void> {
     const userId = req.userId;
     const movieId = Number(req.params.movieId);
 
     try {
         await usersServices.updateMovieStatus(userId, movieId);
 
-        res.sendStatus(httpStatus.OK);
+        res.sendStatus(httpStatus.NO_CONTENT);
+    } catch (err) {
+        treatError(req, res, err);
+    }
+}
+
+export async function deleteMovieFromUserList(req: AuthenticatedRequest, res: Response): Promise<void> {
+    const userId = req.userId;
+    const movieId = Number(req.params.movieId);
+
+    try {
+        await usersServices.deleteMovieFromUserList(userId, movieId);
+
+        res.sendStatus(httpStatus.NO_CONTENT);
     } catch (err) {
         treatError(req, res, err);
     }

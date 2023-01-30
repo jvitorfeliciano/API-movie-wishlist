@@ -41,8 +41,6 @@ export async function authValidation(req: AuthenticatedRequest, res: Response, n
 
     try {
         jwt.verify(token, process.env.SECRET_JWT as string, async (error, decoded: { id: number }) => {
-            console.log(error, decoded, "testtttte");
-
             if (error) {
                 return res.sendStatus(httpStatus.UNAUTHORIZED);
             }

@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { addMovieToUserList } from "../controllers/usersController.js";
+import { addMovieToUserList, getUserMovies } from "../controllers/usersController.js";
 import { authValidation } from "../middlewares/authMiddlewares.js";
 
 const usersRouter = Router();
 
-usersRouter.post("/users/movies-list/:movieId", authValidation, addMovieToUserList);
-
+usersRouter.all("/*", authValidation);
+usersRouter.post("/users/movies-list/:movieId", addMovieToUserList);
+usersRouter.get("/users/movies-list", getUserMovies);
 export default usersRouter;

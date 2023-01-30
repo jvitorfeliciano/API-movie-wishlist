@@ -52,10 +52,17 @@ async function addMovieToUserList(userId: number, movieId: number): Promise<void
     await usersRepository.addMovieToList(userId, movieId);
 }
 
+async function getUserMovies(userId: number) {
+    const movies = await usersRepository.findUserMovies(userId);
+
+    return movies;
+}
+
 const usersServices = {
     createUser,
     validateSignIn,
     addMovieToUserList,
+    getUserMovies,
 };
 
 export default usersServices;

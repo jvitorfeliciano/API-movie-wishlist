@@ -32,11 +32,28 @@ async function addMovieToList(userId: number, movieId: number): Promise<UsersOnM
     });
 }
 
+async function findUserMovies(userId: number) {
+    return await prisma.usersOnMovies.findMany({
+        where: {
+            userId,
+        },
+        select: {
+            watched: true,
+            movie: {
+                include: {
+                    genres: true,
+                },
+            },
+        },
+    });
+}
+
 const usersRepository = {
     findByEmail,
     create,
     findById,
     addMovieToList,
+    findUserMovies,
 };
 
 export default usersRepository;

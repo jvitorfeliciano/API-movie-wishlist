@@ -15,3 +15,15 @@ export async function addMovieToUserList(req: AuthenticatedRequest, res: Respons
         treatError(req, res, err);
     }
 }
+
+export async function getUserMovies(req: AuthenticatedRequest, res: Response) {
+    const userId = req.userId;
+
+    try {
+        const movies = await usersServices.getUserMovies(userId);
+
+        res.send(movies);
+    } catch (err) {
+        treatError(req, res, err);
+    }
+}

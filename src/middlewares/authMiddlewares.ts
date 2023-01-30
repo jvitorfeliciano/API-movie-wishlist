@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import { Genre } from "../protocols/genres.js";
-import genreSchema from "../schemas/genreSchema.js";
+import userSchema from "../schemas/userSchema.js";
 
 export default function validateSchema(req: Request, res: Response, next: NextFunction): void {
-    const genreName = req.body as Genre;
+    const userData = req.body;
 
-    const { error } = genreSchema.validate(genreName, { abortEarly: false });
+    const { error } = userSchema.validate(userData, { abortEarly: false });
 
     if (error === undefined) {
         next();

@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import unauthorizedError from "../errors/UnauthorizedError.js";
 import jwt from "jsonwebtoken";
 import moviesServices from "./moviesServices.js";
+import moviesRepository from "../repositories/moviesRepository.js";
 
 async function createUser(userData: UserSchema): Promise<void> {
     await validateEmail(userData.email);
@@ -58,11 +59,18 @@ async function getUserMovies(userId: number) {
     return movies;
 }
 
+async function updateMovieStatus(userId: number, movieId: number) {
+    await moviesServices.getMovieById(movieId);
+
+    await usersRepository.updateMovieStatus(userId, movieId);
+}
+
 const usersServices = {
     createUser,
     validateSignIn,
     addMovieToUserList,
     getUserMovies,
+    updateMovieStatus,
 };
 
 export default usersServices;

@@ -48,12 +48,40 @@ async function findUserMovies(userId: number) {
     });
 }
 
+async function updateMovieStatus(userId: number, movieId: number) {
+    return await prisma.usersOnMovies.update({
+        where: {
+            movieId_userId: {
+                // used in compound id in order to establish  the order
+                userId,
+                movieId,
+            },
+        },
+        data: {
+            watched: true,
+        },
+    });
+}
+
+async function deleteUserMovie(userId: number, movieId: number) {
+    return await prisma.usersOnMovies.delete({
+        where: {
+            movieId_userId: {
+                userId,
+                movieId,
+            },
+        },
+    });
+}
+
 const usersRepository = {
     findByEmail,
     create,
     findById,
     addMovieToList,
     findUserMovies,
+    updateMovieStatus,
+    deleteUserMovie,
 };
 
 export default usersRepository;

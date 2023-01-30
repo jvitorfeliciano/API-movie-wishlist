@@ -1,4 +1,4 @@
-import { User, UsersOnMovies } from "@prisma/client";
+import { Genre, Movie, User, UsersOnMovies } from "@prisma/client";
 import prisma from "../db/db.js";
 
 async function findByEmail(email: string): Promise<User | null> {
@@ -32,7 +32,14 @@ async function addMovieToList(userId: number, movieId: number): Promise<UsersOnM
     });
 }
 
-async function findUserMovies(userId: number) {
+async function findUserMovies(userId: number): Promise<
+    Array<{
+        movie: Movie & {
+            genres: Genre[];
+        };
+        watched: boolean;
+    }>
+> {
     return await prisma.usersOnMovies.findMany({
         where: {
             userId,
@@ -48,7 +55,7 @@ async function findUserMovies(userId: number) {
     });
 }
 
-async function updateMovieStatus(userId: number, movieId: number) {
+async function updateMovieStatus(userId: number, movieId: number): Promise<UsersOnMovies> {
     return await prisma.usersOnMovies.update({
         where: {
             movieId_userId: {
@@ -63,7 +70,7 @@ async function updateMovieStatus(userId: number, movieId: number) {
     });
 }
 
-async function deleteUserMovie(userId: number, movieId: number) {
+async function deleteUserMovie(userId: number, movieId: number): Promise<UsersOnMovies> {
     return await prisma.usersOnMovies.delete({
         where: {
             movieId_userId: {

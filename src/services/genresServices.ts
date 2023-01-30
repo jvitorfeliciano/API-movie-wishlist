@@ -1,3 +1,4 @@
+import { Genre } from "@prisma/client";
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
 import { GenresEntity } from "../protocols/genres.js";
@@ -29,7 +30,15 @@ async function getAllGenres(): Promise<GenresEntity[]> {
     return genres;
 }
 
-async function countGenre() {
+async function countGenre(): Promise<
+    Array<
+        Genre & {
+            _count: {
+                movies: number;
+            };
+        }
+    >
+> {
     const counts = await genresRepository.countGenreApperance();
 
     return counts;

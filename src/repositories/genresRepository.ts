@@ -47,9 +47,17 @@ async function findManyById(array: Genre_Ids) {
     });
 }
 
-/* async function countGenreApperance() {}
-
-async function deleteGenreAndMovieRelation(genreId: number) {} */
+async function countGenreApperance() {
+    return await prisma.genre.findMany({
+        include: {
+            _count: {
+                select: {
+                    movies: true,
+                },
+            },
+        },
+    });
+}
 
 const genresRepository = {
     insertGenre,
@@ -58,8 +66,7 @@ const genresRepository = {
     findById,
     findMany,
     findManyById,
-    /*  countGenreApperance,
-    deleteGenreAndMovieRelation, */
+    countGenreApperance,
 };
 
 export default genresRepository;

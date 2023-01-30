@@ -24,6 +24,7 @@ async function insertMovie(object: MovieInterface): Promise<Movie> {
         },
     });
 }
+
 async function findOneById(id: number): Promise<
     | (Movie & {
           genres: Genre[];
@@ -39,6 +40,7 @@ async function findOneById(id: number): Promise<
         },
     });
 }
+
 async function findMany(): Promise<
     Array<
         Movie & {
@@ -84,6 +86,7 @@ async function updateDescription(object: MovieUpdate, movieId: number): Promise<
         },
     });
 }
+
 async function deleteOne(movieId: number): Promise<Movie> {
     return await prisma.movie.delete({
         where: {

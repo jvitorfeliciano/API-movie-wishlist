@@ -11,7 +11,6 @@ export async function addNewMovie(req: Request, res: Response): Promise<void> {
         await moviesServices.addNewMovie(movieInformations);
         res.sendStatus(httpStatus.CREATED);
     } catch (err) {
-        console.log("oieee");
         treatError(req, res, err);
     }
 }

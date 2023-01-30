@@ -1,6 +1,7 @@
+import { Genre, Movie } from "@prisma/client";
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { MovieInterface, MovieInformations, MovieUpdate } from "../protocols/movies.js";
+import { MovieInterface, MovieUpdate } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
 
@@ -27,7 +28,11 @@ async function validateMovieExistenceByName(object: MovieInterface): Promise<voi
     }
 }
 
-async function getMovieById(movieId: number) {
+async function getMovieById(movieId: number): Promise<
+    Movie & {
+        genres: Genre[];
+    }
+> {
     const movie = await moviesRepository.findOneById(movieId);
 
     if (movie === null) {
@@ -36,13 +41,25 @@ async function getMovieById(movieId: number) {
     return movie;
 }
 
-async function getAllMovies(): Promise<MovieInformations[]> {
+async function getAllMovies(): Promise<
+    Array<
+        Movie & {
+            genres: Genre[];
+        }
+    >
+> {
     const movies = await moviesRepository.findMany();
 
     return movies;
 }
 
-async function getMoviesByGenre(id: number) {
+async function getMoviesByGenre(id: number): Promise<{
+    movies: Array<
+        Movie & {
+            genres: Genre[];
+        }
+    >;
+} | null> {
     const genre = await genresRepository.findById(id);
 
     if (genre === null) {

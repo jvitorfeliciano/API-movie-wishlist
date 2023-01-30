@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import httpStatus from "http-status";
 import treatError from "../errors/treatErrors.js";
 import { AuthenticatedRequest } from "../middlewares/authMiddlewares";

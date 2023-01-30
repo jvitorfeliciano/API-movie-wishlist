@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import unauthorizedError from "../errors/UnauthorizedError.js";
 import jwt from "jsonwebtoken";
 import moviesServices from "./moviesServices.js";
-import moviesRepository from "../repositories/moviesRepository.js";
+import { Genre, Movie } from "@prisma/client";
 
 async function createUser(userData: UserSchema): Promise<void> {
     await validateEmail(userData.email);
@@ -53,19 +53,26 @@ async function addMovieToUserList(userId: number, movieId: number): Promise<void
     await usersRepository.addMovieToList(userId, movieId);
 }
 
-async function getUserMovies(userId: number) {
+async function getUserMovies(userId: number): Promise<
+    Array<{
+        movie: Movie & {
+            genres: Genre[];
+        };
+        watched: boolean;
+    }>
+> {
     const movies = await usersRepository.findUserMovies(userId);
 
     return movies;
 }
 
-async function updateMovieStatus(userId: number, movieId: number) {
+async function updateMovieStatus(userId: number, movieId: number): Promise<void> {
     await moviesServices.getMovieById(movieId);
 
     await usersRepository.updateMovieStatus(userId, movieId);
 }
 
-async function deleteMovieFromUserList(userId: number, movieId: number) {
+async function deleteMovieFromUserList(userId: number, movieId: number): Promise<void> {
     await moviesServices.getMovieById(movieId);
 
     await usersRepository.deleteUserMovie(userId, movieId);

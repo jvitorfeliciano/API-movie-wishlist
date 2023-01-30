@@ -29,17 +29,17 @@ async function getAllGenres(): Promise<GenresEntity[]> {
     return genres;
 }
 
-/* async function countGenre(): Promise<GenreCount[]> {
+async function countGenre() {
     const counts = await genresRepository.countGenreApperance();
 
-    return counts.rows;
-} */
+    return counts;
+}
 
 const genresServices = {
     addNewGenre,
     deleteGenreById,
     getAllGenres,
-    /*  countGenre, */
+    countGenre,
 };
 
 export default genresServices;

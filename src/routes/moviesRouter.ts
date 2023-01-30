@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
     addNewMovie,
+    deleteMovie,
     getAllMovies,
     getMovieById,
     getMoviesByGenre,
@@ -15,6 +16,6 @@ moviesRouter.get("/movies", getAllMovies);
 moviesRouter.get("/movies/:id", getMovieById);
 moviesRouter.get("/movies/genres/:id", getMoviesByGenre);
 moviesRouter.patch("/movies/:id", validateUpdateSchema, updateMovieDescription);
-/* moviesRouter.delete("/movies/:id", deleteMovie); */
+moviesRouter.delete("/movies/:id", deleteMovie);
 
 export default moviesRouter;

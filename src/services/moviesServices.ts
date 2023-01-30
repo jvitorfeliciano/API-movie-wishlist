@@ -64,16 +64,15 @@ async function updateMovieDescription(object: MovieUpdate, movieId: number): Pro
     await moviesRepository.updateDescription(object, movieId);
 }
 
-/* async function deleteMovie(movieId: number): Promise<void> {
+async function deleteMovie(movieId: number): Promise<void> {
     const movie = await moviesRepository.findOneById(movieId);
 
-    if (movie.rowCount === 0) {
+    if (movie === null) {
         throw notFoundError();
     }
 
-    await moviesRepository.deleteGenreAndMovieRelation(movieId);
     await moviesRepository.deleteOne(movieId);
-} */
+}
 
 const moviesServices = {
     addNewMovie,
@@ -81,7 +80,7 @@ const moviesServices = {
     getAllMovies,
     getMoviesByGenre,
     updateMovieDescription,
-    /*   deleteMovie, */
+    deleteMovie,
 };
 
 export default moviesServices;

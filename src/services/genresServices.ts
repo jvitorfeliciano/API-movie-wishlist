@@ -1,6 +1,6 @@
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { GenreCount, GenresEntity } from "../protocols/genres.js";
+import { GenresEntity } from "../protocols/genres.js";
 import genresRepository from "../repositories/genresRepository.js";
 
 async function addNewGenre(name: string): Promise<void> {

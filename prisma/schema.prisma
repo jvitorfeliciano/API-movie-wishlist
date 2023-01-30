@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       Int             @id @default(autoincrement())
+  name     String
+  email    String          @unique
+  password String
+  movies   UsersOnMovies[]
+
+  @@map("users")
+}
+
 model Genre {
   id     Int     @id @default(autoincrement())
   name   String  @unique
@@ -16,11 +26,23 @@ model Genre {
 }
 
 model Movie {
-  id             Int     @id @default(autoincrement())
-  title          String  @unique
+  id             Int             @id @default(autoincrement())
+  title          String          @unique
   description    String
   poster_picture String
   genres         Genre[]
+  users          UsersOnMovies[]
 
   @@map("movies")
+}
+
+model UsersOnMovies {
+  movie   Movie   @relation(fields: [movieId], references: [id])
+  movieId Int
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int
+  watched Boolean @default(false)
+
+  @@id([movieId, userId])
+  @@map("users_movies")
 }

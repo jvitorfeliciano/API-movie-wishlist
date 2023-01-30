@@ -1,17 +1,17 @@
 import conflictError from "../errors/conflictError.js";
 import notFoundError from "../errors/notFoundError.js";
-import { Movie, MovieInformations, MovieUpdate } from "../protocols/movies.js";
+import { MovieInterface, MovieInformations, MovieUpdate } from "../protocols/movies.js";
 import genresRepository from "../repositories/genresRepository.js";
 import moviesRepository from "../repositories/moviesRepository.js";
 
-async function addNewMovie(object: Movie): Promise<void> {
+async function addNewMovie(object: MovieInterface): Promise<void> {
     await validateGenresExistence(object);
     await validateMovieExistenceByName(object);
 
     await moviesRepository.insertMovie(object);
 }
 
-async function validateGenresExistence(object: Movie): Promise<void> {
+async function validateGenresExistence(object: MovieInterface): Promise<void> {
     const genres = await genresRepository.findManyById(object.genre_ids);
 
     if (genres.length !== object.genre_ids.length) {
@@ -19,7 +19,7 @@ async function validateGenresExistence(object: Movie): Promise<void> {
     }
 }
 
-async function validateMovieExistenceByName(object: Movie): Promise<void> {
+async function validateMovieExistenceByName(object: MovieInterface): Promise<void> {
     const movie = await moviesRepository.findByName(object);
 
     if (movie !== null) {

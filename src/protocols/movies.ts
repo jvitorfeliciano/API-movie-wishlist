@@ -7,14 +7,14 @@ interface MoviesEntity {
     description: string;
 }
 
-interface Movie {
+interface MovieInterface {
     title: string;
     poster_picture: string;
     description: string;
     genre_ids: number[];
 }
 
-type MovieUpdate = Pick<Movie, "description">;
+type MovieUpdate = Pick<MovieInterface, "description">;
 
 interface MovieInformations extends MoviesEntity {
     genres: GenresEntity[] | null;
@@ -28,4 +28,4 @@ interface MovieAndGenreIdsEntity {
 
 type MovieAndGenreIds = Omit<MovieAndGenreIdsEntity, "id">;
 
-export { MoviesEntity, Movie, MovieInformations, MovieAndGenreIds, MovieUpdate, MovieAndGenreIdsEntity };
+export { MoviesEntity, MovieInterface, MovieInformations, MovieAndGenreIds, MovieUpdate, MovieAndGenreIdsEntity };

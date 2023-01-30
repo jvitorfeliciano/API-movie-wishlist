@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import httpStatus from "http-status";
 import treatError from "../errors/treatErrors.js";
 import { Genre } from "../protocols/genres.js";
 import genresServices from "../services/genresServices.js";
@@ -8,10 +9,9 @@ export async function addNewGenre(req: Request, res: Response): Promise<void> {
 
     try {
         await genresServices.addNewGenre(name);
-        res.sendStatus(201);
+        res.sendStatus(httpStatus.CREATED);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -20,10 +20,9 @@ export async function deleteGenreById(req: Request, res: Response): Promise<void
 
     try {
         await genresServices.deleteGenreById(id);
-        res.sendStatus(204);
+        res.sendStatus(httpStatus.NO_CONTENT);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 export async function getAllGenres(req: Request, res: Response): Promise<void> {
@@ -31,8 +30,7 @@ export async function getAllGenres(req: Request, res: Response): Promise<void> {
         const genres = await genresServices.getAllGenres();
         res.send(genres);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -41,7 +39,6 @@ export async function countGenreApperance(req: Request, res: Response): Promise<
         const count = await genresServices.countGenre();
         res.send(count);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }

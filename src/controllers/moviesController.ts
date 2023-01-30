@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
+import httpStatus from "http-status";
 import treatError from "../errors/treatErrors.js";
-import { Movie, MovieUpdate } from "../protocols/movies.js";
+import { MovieInterface, MovieUpdate } from "../protocols/movies.js";
 import moviesServices from "../services/moviesServices.js";
 
 export async function addNewMovie(req: Request, res: Response): Promise<void> {
-    const movieInformations = req.body as Movie;
+    const movieInformations = req.body as MovieInterface;
 
     try {
         await moviesServices.addNewMovie(movieInformations);
-        res.sendStatus(201);
+        res.sendStatus(httpStatus.CREATED);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        console.log("oieee");
+        treatError(req, res, err);
     }
 }
 
@@ -23,8 +24,7 @@ export async function getMovieById(req: Request, res: Response): Promise<void> {
 
         res.send(movie);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -33,8 +33,7 @@ export async function getAllMovies(req: Request, res: Response): Promise<void> {
         const movies = await moviesServices.getAllMovies();
         res.send(movies);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -45,8 +44,7 @@ export async function getMoviesByGenre(req: Request, res: Response): Promise<voi
         const movies = await moviesServices.getMoviesByGenre(genrerId);
         res.send(movies);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -57,10 +55,9 @@ export async function updateMovieDescription(req: Request, res: Response): Promi
     try {
         await moviesServices.updateMovieDescription(movieDescription, movieId);
 
-        res.sendStatus(204);
+        res.sendStatus(httpStatus.NO_CONTENT);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
 
@@ -70,9 +67,8 @@ export async function deleteMovie(req: Request, res: Response): Promise<void> {
     try {
         await moviesServices.deleteMovie(movieId);
 
-        res.sendStatus(204);
+        res.sendStatus(httpStatus.NO_CONTENT);
     } catch (err) {
-        const { status, message } = treatError(err);
-        res.status(status).send({ message });
+        treatError(req, res, err);
     }
 }
